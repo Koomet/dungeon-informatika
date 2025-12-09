@@ -216,12 +216,21 @@ Enemy slime        = {"Slug", 25, 25, 5, 1, 1, 5, "T1"};
 Enemy goblin       = {"Goblin", 40, 40, 8, 2, 4, 15, "T1"};
 Enemy skeleton     = {"Skeleton", 60, 60, 10, 5, 3, 20, "T2"};
 Enemy darkWolf     = {"Dark Wolf", 90, 90, 15, 6, 6, 35, "T3"};
-Enemy cursedKnight = {"Cursed Knight", 140, 140, 22, 10, 5, 60,"T4"
+Enemy cursedKnight = {"Cursed Knight", 140, 140, 22, 10, 5, 60,"T4"};
+Enemy slug1        = {"Slug", 25, 25, 5, 1, 1, 5, "T1"};
+Enemy slug2        = {"Infected slug", 30, 30, 7, 1, 1, 10, "T1"};
+Enemy wolf       = {"Wolf", 40, 40, 8, 2, 4, 15, "T1"};
+Enemy wolf2       = {"Infected Wolf", 50, 45, 10, 2, 4, 25, "T1"};
+Enemy spider     = {"Spider", 35, 30, 15, 5, 3, 20, "T2"};
+Enemy skeleton2     = {"Crystallized Skeleton", 65, 80, 11, 5, 3, 30, "T2"};
+Enemy darkorb     = {"Dark Orb", 90, 90, 15, 6, 6, 35, "T3"};
+Enemy darkorb2     = {"Crystal Orb", 100, 100, 17, 6, 6, 45, "T3"};
+Enemy livingarmor = {"Living Armor", 140, 140, 22, 10, 5, 60,"T4"};
+Enemy livingarmor2 = {"Living Crystal", 150, 160, 25, 10, 5, 80,"T4"};
 //Enemy slime        = {"Infected Slug", 30, 30, 7, 1, 1, 5, "T1"};
 //Enemy slime        = {"Slime", 35, 30, 7, 1, 1, 5, "T1"};
 //Enemy slime        = {"Slime", 25, 25, 5, 1, 1, 5, "T1"};
 //Enemy slime        = {"Slime", 25, 25, 5, 1, 1, 5, "T1"};
-};
 Enemy INFORMATIKAJAHAT = {"INFORMATIKA JAHAT", 300, 300, 15, 10, 8, 200, "T5"};//ini pak yang musuh baru(muncul di zona 4)
 
 // ================= COMBAT MATH =================
@@ -297,7 +306,7 @@ void zone1(Player &player) {
     showHUD(player);
     dialog(player.name," : How in the world is there a big ass grass field in here as well");
     dialog(player.name," : ...is that the sun in the sky? why is the sky inside?");
-    dialog(player.name," : Am i still outside? im pretty i've went inside the cave");
+    dialog(player.name," : Am i still outside? im pretty sure i've went inside the cave");
     narrate("You continue to move forward...");
     narrate("Youre pretty sure youre already inside the 'Cave'");
 
@@ -312,11 +321,17 @@ void zone1(Player &player) {
         }
         else if (roll <= 80) {
             showHUD(player);
-            vector<Enemy> pool = {slime, goblin};
-            vector<int> chance = {50, 50};
+            vector<Enemy> pool = {slug1, spider, slug2, wolf};
+            vector<int> chance = {30, 25, 25, 15};
             randomEncounter(player, pool, chance);
             pressEnter();
         }
+        else if (i == 2) {
+            narrate("test");
+        }
+
+
+        
         else {
             narrate("You keep walking and nothing fortunate or unfortunate happen.");
             narrate("Moving along.");
@@ -833,13 +848,13 @@ int main() {
     srand(static_cast<unsigned int>(time(nullptr)));
     system("cls");
     showTitle();
-    cout << "\nWelcome!\n(Enter untuk lanjut)";
+    cout << "\nWelcome!\n(Press Enter)";
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     act0();
     narrate("\nI know that YOU know exactly what this is.");
     
-    narrate("\nYou hear a voice from the beyond");
+    narrate("\nYou hear an oddly familiar voice from the beyond");
     cout << "\n???: Who are you?" << endl << "> ";
     string playerName;
     getline(cin, playerName);
