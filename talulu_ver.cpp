@@ -32,6 +32,7 @@ void battle(Player &player, Enemy enemy);
 void bossBattle_DraconicMaster(Player &player);
 void dialog(const string& speaker, const string& text);
 void showHUD(const Player &p);
+bool useItemOutOfBattle(Player &player, const string &itemNameInput);
 
 // Compatibility wrapper: some calls use the older/alternate name draconicMasterBoss
 inline void draconicMasterBoss(Player &player) { bossBattle_DraconicMaster(player); }
@@ -296,6 +297,58 @@ void pressEnter() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
+void restArea(Player &player) {
+    narrate("\n=== Rest Area ===");
+    narrate("You found a quiet safe room with a warm campfire.");
+    narrate("You finally get a moment to rest for a while...");
+
+    while (true) {
+        cout << "\nWhat do you want to do?" << endl;
+        cout << "1. Rest (Heal to full)" << endl;
+        cout << "2. Use Inventory " << endl;
+        cout << "3. Check stat" << endl;
+        cout << "4. Leave Rest Area" << endl;
+
+        int c = chooseOption(1, 4);
+
+        if (c == 1) {
+            player.hp = player.maxHP;
+            narrate("You sit by the campfire... Your HP is fully restored!");
+        }
+
+        else if (c == 2) {
+            showInventory(player.inv);
+            narrate("\n(Type the item name to use it, or 0 to cancel)");
+            
+            cout << "> ";
+            string input;
+            getline(cin, input);
+
+            if (input == "0" || input == " ") {
+                narrate("You decided not to use anything.");
+                continue;
+            }
+
+            bool used = useItemOutOfBattle(player, input);
+            cleanInventory(player.inv);
+
+            if (!used) {
+                narrate("You put it back inside.");
+            }
+        }
+
+        else if (c == 3) {
+            showHUD(player);
+        }
+
+        else if (c == 4) {
+            narrate("You leave the rest area and continue your journey...");
+            break;
+        }
+    }
+}
+
+
 // ================= ZONES / ENCOUNTERS =================
 
 // SOME ZONE THINGY THAT KEEP BUGGING!
@@ -326,11 +379,6 @@ void zone1(Player &player) {
             randomEncounter(player, pool, chance);
             pressEnter();
         }
-        else if (i == 2) {
-            narrate("test");
-        }
-
-
         
         else {
             narrate("You keep walking and nothing fortunate or unfortunate happen.");
